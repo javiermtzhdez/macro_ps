@@ -1,0 +1,7 @@
+[deps]
+GR = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
+IntervalArithmetic = "d1acc4aa-44c8-5952-acd4-ba5d80a2a253"
+IntervalRootFinding = "d2bf35a9-74e0-55ec-b149-d360ff49b807"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+Plotly = "58dd65bb-95f3-509e-9936-c39a10fdeae7"
+Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"

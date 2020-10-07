@@ -1,0 +1,203 @@
+\documentclass[a4paper]{article} 
+\input{style/head.tex}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{dsfont}
+
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+%-------------------------------
+%	TITLE VARIABLES (identify your work!)
+%-------------------------------
+
+\newcommand{\yourname}{Javier Martinez Hernandez} % replace YOURNAME with your name
+%\newcommand{\yournetid}{Student ID: 251054234} % replace YOURNETID with your NetID
+\newcommand{\youremail}{fmarti23@uwo.ca} % replace YOUREMAIL with your email
+%\newcommand{\assignmentnumber}{1} % replace X with assignment number
+\newcommand{\deliverynumber}{1} % replace X with assignment number
+
+\begin{document}
+
+%-------------------------------
+%	TITLE SECTION (do not modify unless you really need to)
+%-------------------------------
+\input{style/header.tex}
+
+%-------------------------------
+%	ASSIGNMENT CONTENT (add your responses)
+%-------------------------------
+
+\section{PART I}
+
+Consider the Neo-Classical growth model. Time is discrete and goes on forever. There is a representative agent that derives utility only from consumption and discounts future utility at a rate $\beta$. The agent owns $k_0$ units of capital and has an endowment of time that can be used for labor or leisure every period. The time endowment is normalized to 1. There is a representative firm that hires labor and rents capital to produce using a constant returns to scale technology. Capital rental rate is $r$ and the wage is $w$. Capital depreciates fully after use (i.e. $\rho = 1$).\\~\
+
+The utility function is:\\~\
+\begin{align*}
+u(c,l) = \frac{c^{1-\sigma}}{1-\sigma} - \chi \frac{l^{1+\eta}}{1+\eta}
+\end{align*}
+
+
+\begin{enumerate}
+\item[1.] Define a competitive equilibrium for this economy.\\~\
+
+A competitive equilibrium is a sequence of prices $\{p_{t},w_{t}, r_{t}\}^{\infty}_{t=0}$, allocations for the firm $\{ k^{d}_{t}, l^{d}_{t}, y_{t} \}^{\infty}_{t=0}$ and allocations for the household $ \{ c_{t}, i_{t}, x_{t+1}, k^{s}_{t}, l^{s}_{t} \}^{\infty}_{t=0}$ such that
+\begin{itemize}
+\item Given prices $\{p_{t},w_{t}, r_{t}\}^{\infty}_{t=0}$, the allocation of the representative firm solves: 
+\begin{align*}
+\max_{ \{ y_{t}, k_{t}, l_{t} \}^{\infty}_{t=0} } \sum^{\infty}_{t=0} p_{t}(y_{t}- r_{t}k_{t} - w_{t}l_{t})
+\end{align*}
+subject to:
+\begin{align*}
+y_{t} = F(k_{t}, l_{t}) \forall t\geq 0 \\
+\end{align*}
+
+
+\item Given prices $\{p_{t},w_{t}, r_{t}\}^{\infty}_{t=0}$, the allocation of the representative household solves: 
+\begin{align*}
+\max_{ \{ c_{t}, i_{t}, x_{t+1}, k^{s}_{t}, n^{s}_{t} \}^{\infty}_{t=0}} \sum^{\infty}_{t=0} \beta^{t} U(c_{t}, l_t) \\
+subject \: \: to \\
+\sum^{\infty}_{t=0} p_{t}(c_{t} + i_{t}) \leq \sum^{\infty}_{t=0} p_{t}(r_{t}k_{t} + w_{t}n_{t}) + \pi \\
+x_{t+1} = (1-\delta)x_{t} + i_{t}, \: \: \: \forall t \geq 0 \\
+0 \leq l_{t} \leq 1, \: 0 \leq k_{t} \leq x_{t}, \: \forall	t \geq 0\\
+c_{t}, x_{t+1} \geq 0, \: \forall t \geq 0 \\
+x_{0} \: \: given
+\end{align*}
+
+\item Markets clear
+\begin{align*}
+y_{t} = c_{t} + i_{t} \: \: \: Goods \: \: market \\
+k^{d}_{t} = k^{s}_{t} \: \: \: Capital \: \: market \\
+l^{d}_{t} = l^{s}_{t} \: \: \: Labor \: \: market
+\end{align*}
+\end{itemize}
+
+
+\item[2.] Find the steady state value for $\left\lbrace c,l,k,y,r,w \right\rbrace$\\~\
+
+For this problem we set up the social planners problem as:
+\begin{align*}
+\max_{c_t, l_t, k_{t+1}} \sigma_{t=0}^{\infty} \beta^{t} \left[  \frac{c^{1-\sigma}}{1-\sigma} - \chi \frac{l^{1+\eta}}{1+\eta} \right]
+\end{align*}
+subject to 
+\begin{align*}
+c_t+ k_{t+1} - (1-\delta)k_t = zk_{t}^{\alpha}l_{t}^{1- \alpha} \\
+\intertext{and the non negativity constraints}\\
+y_{t},k_{t},l_{t} \geq 0, l_t \leq 1, k_0 = \bar{k}_0 \: given
+\end{align*}
+The procedure requires obtaining the first order conditions for $c_t, l_t and k_{t+1}$ and rearranging them. After all the algebra we obtain the following:
+\begin{align*}
+\frac{k}{l} = \left( \frac{1-\beta (1-\delta)}{\alpha z \beta} \right)^{\frac{1}{\alpha - 1}} = \Psi
+\end{align*}
+\begin{align*}
+\frac{c}{l} = z\left(\frac{k}{l}\right)^{\alpha} - \delta \left(\frac{k}{l}\right) = \Lambda = z \Psi^{\alpha} - \delta \Psi
+\end{align*}
+Combining the f.o.c of consumption and labor we obtain:
+\begin{align*}
+l = \left( \frac{z(1-\alpha) \Psi^{\alpha}}{\chi \Lambda^{\sigma}} \right)^{\frac{1}{\sigma + \eta}}
+\end{align*}
+Finally,
+\begin{align*}
+k^{ss} = \Psi l^{ss}\\
+c^{ss}  = \Lambda l^{ss}\\
+y^{ss} = z(k^{ss})^{\alpha}(l^{ss})^{\alpha} = z\Psi^{\alpha}l^{ss}\\
+r^{ss} = \alpha z (k^{ss})^{\alpha-1} (l^{ss})^{1-\alpha} = \alpha z M^{\alpha - 1}\\
+w^{ss} = (1-\alpha)z(k^{ss})^{\alpha}(l^{ss})^{-\alpha} = (1-\alpha)z\Psi^{\alpha}
+\end{align*}
+
+
+\item[3.] Pose the planner’s dynamic programming problem. Write down the appropriate Bellman equation.\\~\
+\begin{align*}
+V(k) = \max_{k', l} \left\lbrace \frac{(zk^{\alpha}l^{1-\alpha} + (1-\delta)k  - k'  )^{1-\sigma}}{1-\sigma}  -\chi \frac{l^{1+\eta}}{1+\eta} + \beta V(k') \right\rbrace\\
+\intertext{Subject to}\\
+0\leq k' \leq zk^{\alpha}l^{1-\alpha} + (1-\delta)k\\
+0\leq l \leq 1
+\end{align*}
+
+For the  following exercises, assume that $\alpha=1, z=1, \sigma=2, \eta = 1$
+\item[4.] Find $\chi$ such that $l_{ss} = 0.4$
+\item[5.] Solve the planner's problem numerically using value function iteration.
+\begin{enumerate}
+\item[(a)] Plain VFI.
+\item[(b)] Modified Howard’s Policy Iteration (you must choose the number of policy iterations).
+\item[(c)] MacQueen-Porteus Bounds.\\~\
+\end{enumerate}
+
+Use an equally space grid for capital between $[10^{-5}, 2k_{ss}]$, vary the number of grid points until you get a maximum error of 1\% in your Euler Equation. For each method report the time and number of iterations.
+
+\item[6.] Use the solution to the planner’s problem to obtain the path of $\left\lbrace c, k, r, w, y \right\rbrace$ starting from the steady state after the following changes: \\~\
+
+\begin{enumerate}
+\item[I.] Capital decreases to 80\%
+\begin{itemize}
+\item Consumption
+\begin{center}
+AAA
+\end{center}
+\clearpage
+\item Capital
+\begin{center}
+AAA
+\end{center}
+\item Interest Rate
+\begin{center}
+AAA
+\end{center}
+\item Wage
+\begin{center}
+AAA
+\end{center}
+\clearpage
+\item Production
+\begin{center}
+AAA
+\end{center}
+
+\end{itemize}
+
+\item[II.] Productivity increases permanently by 5\%
+\begin{itemize}
+\item Consumption
+\begin{center}
+AAA
+\end{center}
+\item Capital
+\begin{center}
+AAA
+\end{center}
+\clearpage
+\item Interest Rate
+\begin{center}
+AAA
+\end{center}
+\item Wage
+\begin{center}
+AAA
+\end{center}
+\item Production
+\begin{center}
+AAA
+\end{center}
+
+\end{itemize}
+\end{enumerate}
+
+\item[7.] Prove that the mapping used in Howard's policy iteration algorithm is a contraction.
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+%------------------------------------------------
+%
+%\bibliographystyle{acm}
+%\bibliography{references} % citation records are in the references.bib document
+
+\end{document}
