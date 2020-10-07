@@ -4,7 +4,7 @@ PS
 PS1 - Ready
 
 
-PS2 - In progress, attempting to do my a different approach and not relying on pre-coded algorithms
+PS2 - In progress, completing the graphs, the transition values and the proofs. 
 
 
 PS3 - In progress
