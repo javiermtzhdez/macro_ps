@@ -13,7 +13,7 @@
 ######################
 
 ######### This part is just the environment activation
-cd("/Users/cyberdim/Dropbox/github/advmacro_ps/")
+cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/")
 
 ######### Run these commented commands only the first time
 using Pkg
@@ -34,7 +34,7 @@ using JuMP
 using Roots
 using IntervalArithmetic, IntervalRootFinding
 
-cd("/Users/cyberdim/Dropbox/github/advmacro_ps/ps2/")
+cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/ps2/")
 #mkpath("Figures") # Creates the folder Figures ensuring the appropriate path exists
 
 

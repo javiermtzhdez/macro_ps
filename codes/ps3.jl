@@ -5,12 +5,12 @@
 ####################################################################
 
 ######### This part is just the environment activation
-cd("/Users/cyberdim/Dropbox/github/advmacro_ps/")
+cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/")
 
 ######### Run these commented commands only the first time
 using Pkg
 Pkg.activate("ps3")
-cd("/Users/cyberdim/Dropbox/github/advmacro_ps/ps3/")
+cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/ps3/")
 #Pkg.add("LaTeXStrings") # https://github.com/stevengj/LaTeXStrings.jl
 #Pkg.add("Dierckx") # https://github.com/kbarbary/Dierckx.jl
 #Pkg.add("ForwardDiff") # https://github.com/JuliaDiff/ForwardDiff.jl

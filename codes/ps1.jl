@@ -12,7 +12,7 @@
 # [specification part]
 ######################
 
-cd("/Users/cyberdim/Dropbox/github/advmacro_ps/")
+cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/")
 using Pkg
 Pkg.activate("ps1")
 
@@ -33,7 +33,7 @@ using Plots
 #
 # Creating the folders for our graphs
 #
-cd("/Users/cyberdim/Dropbox/github/advmacro_ps/ps1/")
+cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/ps1/")
 mkpath("Figures") # Creates the folder Figures ensuring the appropriate path exists
 
 

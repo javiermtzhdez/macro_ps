@@ -12,7 +12,7 @@
 # [specification part]
 ######################
 
-#cd("/Users/cyberdim/Dropbox/github/advmacro_ps/ps1/")
+#cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/ps1/")
 #using Pkg
 #Pkg.activate("ps1")
 
