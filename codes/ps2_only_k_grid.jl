@@ -419,7 +419,7 @@ l_ss,k_ss,y_ss,c_ss,r_ss,w_ss = SS_values(p)
 @time V_20, G_kp_20, G_c_20, k_grid_20 = Solve_VFI_loop(20,p)
 @time V_50, G_kp_50, G_c_50, k_grid_50 = Solve_VFI_loop(50,p)
 @time V_200, G_kp_200, G_c_200, k_grid_200 = Solve_VFI_loop(200,p)
-@time V_1000, G_kp_1000, G_c_1000, k_grid_1000 = Solve_VFI_loop(1000,p)
+#@time V_1000, G_kp_1000, G_c_1000, k_grid_1000 = Solve_VFI_loop(1000,p)
 
 @time V_20, G_kp_20, G_c_20, k_grid_20 = Solve_VFI_HPI(20,20,p)
 @time V_50, G_kp_50, G_c_50, k_grid_50 = Solve_VFI_HPI(20,50,p)
