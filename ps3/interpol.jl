@@ -1,29 +1,6 @@
 # Interpolation module
 module INTERPOL
-export lc, sc, crra2, crra5, crra10, newton, poly_inter_err, CubicNatural, CubicNaturalEval
-
-
-# Function definition
-
-function lc(x)
-    return log(x)
-end
-
-function sc(x)
-    return x^(1/2)
-end
-
-function crra2(x) # where x is the consumption and sigma = 2
-    return (x^(1-2))/(1-2)
-end
-
-function crra5(x) # where x is the consumption and sigma = 5
-    return (x^(1-5))/(1-5)
-end
-
-function crra10(x) # where x is the consumption and sigma = 10
-    return (x^(1-10))/(1-10)
-end
+export newton, poly_inter_err, CubicNatural, CubicNaturalEval
 
 # The Newton Polynomial is taken from http://fsu.digital.flvc.org/islandora/object/fsu%3A657877
 

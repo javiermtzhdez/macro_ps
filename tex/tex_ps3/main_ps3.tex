@@ -3,6 +3,11 @@
 \usepackage{amsmath}
 \usepackage{bbm}
 \usepackage{dsfont}
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{capt-of}% or use the larger `caption` package
+
 
 \newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
 \def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
@@ -36,11 +41,78 @@ Interpolation\\~\
 \begin{enumerate}
 \item[1.] Interpolation routines.\\~\
 
-\item[2.] Minimization of the (negative of the) accuracy ?\\~\
+See Julia Code\\~\
 
+\begin{table}[!htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rrrr}
+\hline\hline
+\textbf{Interpolation method} & \textbf{5 grid points} & \textbf{10 grid points} & \textbf{20 grid points} \\\hline
+Global monomial & 3.624 & 0.549 & 1.491 \\
+Linear spline & 7.52 & 2.61 & 0.833 \\
+cubic spline & 7.375 & 2.578 & 0.826 \\\hline\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rrrr}
+\hline\hline
+\textbf{Interpolation method} & \textbf{5 grid points} & \textbf{10 grid points} & \textbf{20 grid points} \\\hline
+Global monomial & 0.292 & 0.031 & 2.843 \\
+Linear spline & 0.797 & 0.231 & 0.065 \\
+cubic spline & 0.644 & 8.337 & 0.887 \\\hline\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rrrr}
+\hline\hline
+\textbf{Interpolation method} & \textbf{5 grid points} & \textbf{10 grid points} & \textbf{20 grid points} \\\hline
+Global monomial & 67.231 & 17.127 & 12.772 \\
+Linear spline & 106.645 & 48.359 & 19.251 \\
+cubic spline & 106.376 & 48.3 & 19.237 \\\hline\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rrrr}
+\hline\hline
+\textbf{Interpolation method} & \textbf{5 grid points} & \textbf{10 grid points} & \textbf{20 grid points} \\\hline
+Global monomial & 251884.258 & 115697.137 & 46038.547 \\
+Linear spline & 336349.131 & 202097.314 & 113060.359 \\
+cubic spline & 336349.059 & 202097.306 & 113060.355 \\\hline\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rrrr}
+\hline\hline
+\textbf{Interpolation method} & \textbf{5 grid points} & \textbf{10 grid points} & \textbf{20 grid points} \\\hline
+Global monomial & 3.88934724074138e11 & 2.08387581222779e11 & 1.08832607758105e11 \\
+Linear spline & 5.03864673743989e11 & 3.2338560205199e11 & 2.05707722591662e11 \\
+cubic spline & 5.03864673744076e11 & 3.23385602051989e11 & 2.05707722591662e11 \\\hline\hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\item[2.] Minimization of the (negative of the) accuracy ?\\~\
+See Julia Code\\~\
 
 \item[3.] Extrapolation \\~\
-
+In progress
 
 \end{enumerate}
 
