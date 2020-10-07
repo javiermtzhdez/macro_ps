@@ -124,7 +124,28 @@ For the  following exercises, assume that $\alpha=1, z=1, \sigma=2, \eta = 1$
 \item[(c)] MacQueen-Porteus Bounds.\\~\
 \end{enumerate}
 
-Use an equally space grid for capital between $[10^{-5}, 2k_{ss}]$, vary the number of grid points until you get a maximum error of 1\% in your Euler Equation. For each method report the time and number of iterations.
+Use an equally space grid for capital between $[10^{-5}, 2k_{ss}]$, vary the number of grid points until you get a maximum error of 1\% in your Euler Equation. For each method report the time and number of iterations.\\~\
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|ccccc|}
+\hline
+Type & Number of Calls & Time & \%tot & alloc \\
+\hline
+Plain VFI $n_k=20$ & 1 & 7.213361 s & 2.35 & 2.405 \\
+Plain VFI $n_k=50$ & 1 &  &  &  \\
+Plain VFI $n_k=100$ & 1 &  &  &  \\
+Plain VFI $n_k=500$ &1  &  &  &  \\
+VFI-HPI $n_k=20$ & 1 &  &  &  \\
+VFI-HPI $n_k=50$& 1 &  &  &  \\
+VFI-HPI $n_k=100$& 1 &  &  &  \\
+VFI-HPI $n_k=500$&  1&  &  &  \\
+VFI-MBP  $n_k=20$ &  1&  &  &  \\
+VFI-MBP $n_k=50$& 1 &  &  &  \\
+VFI-MBP $n_k=100$& 1 &  &  &  \\
+VFI-MBP $n_k=500$&  1&  &  & 
+\end{tabular}
+\end{table}
 
 \item[6.] Use the solution to the planner’s problem to obtain the path of $\left\lbrace c, k, r, w, y \right\rbrace$ starting from the steady state after the following changes: \\~\
 
