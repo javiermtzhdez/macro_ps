@@ -30,9 +30,6 @@ Pkg.activate("ps2")
 
 using Parameters
 using Plots
-using JuMP
-using Roots
-using IntervalArithmetic, IntervalRootFinding
 
 cd("/Users/cyberdim/Dropbox/github/macro/macro_ps/ps2/")
 #mkpath("Figures") # Creates the folder Figures ensuring the appropriate path exists
@@ -92,9 +89,6 @@ function lss(a,b,c, p::Par) # where a represents Ψ and b represents Λ, and c r
     return ((z*(1-α)*a^α)/(c*b^σ))^(1/(σ + η))
 end
 
-lss(Ψ,Λ,χ, p)
-
-
 
 # We know that l_ss = 0.4, then we can invert the function to get χ
 function f1(a,b,p::Par)# where a represents Ψ and b represents Λ
@@ -106,6 +100,11 @@ end
 global χ = f1(Ψ, Λ, p::Par)
 println("Chi = ")
 println(χ)
+
+
+lss(Ψ,Λ,χ, p)
+
+
 
 # So the way the problem is written, I need some values (i.e. the steady state values for later, I might as well get them now)
 
@@ -139,54 +138,117 @@ function utility(k,kp,l, p::Par)
     end
 end
 
-# Now, the grid between (10^-5) and 2k_ss
-function k_grid_make(lb,ub,n_k)
-    grid = range(lb,ub;length=n_k) ; # Equally spaced grid between 0 and 2*k_ss
-    return grid
-end
-#k_grid_make(1E-5,2*k_ss,100)
-#collect(k_grid_make(1E-5,2*k_ss,100))
-
-# Grid for labor
-l_grid = range(0,1,length=11)
-#collect(l_grid)
-
-
-
-
-
-
-function utility(k,kp,p::Par)
-    @unpack z, α = p
-    c = z*k.^α  - kp
+function consumption(k,kp,l,p::Par)
+    @unpack z, α, η, σ, δ = p
+    c = ((z*(k^α)*l^(1-α)+(1-δ)*k - kp)^(1-σ))/(1-σ)
     if c>0
-    return log(c)
+        return c
     else
-    return -Inf
+        return -Inf
     end
 end
 
+function labor_decision(k,kp,p::Par)
+    @unpack z, α, η, σ, δ = p
+    inner_k_grid = range(0,1,length=100)
+    L_array = [utility(k,kp,inner_k_grid[i],p) for i in 1:100]
+    index = findmax(L_array)[2] # Bc findmax get you  the value and the index 
+    l = inner_k_grid[index]
+    return l
+end
+
+
+function Make_K_Grid(n_k,p::Par)
+    # Get SS
+    l_ss,k_ss,y_ss,c_ss,r_ss,w_ss = SS_values(p)
+    # Get k_grid
+    k_grid = range(1E-5,2*k_ss;length=n_k) ; # Equally spaced grid between 0 and 2*k_ss
+    # Return
+    return k_grid
+end
 
 
 
+# Define function for Value update and policy functions
+# This is the contraction V_n+1(k) = TV_n(k) = max u(c,l) + beta V_n (k')
+# So what we are doing here is just generating the new iteration of the value function.
+# The inputs are the old value function (V_n(k) in the terminology I am using), the grid for k (because its grid search)
+function T_grid_loop(V_old,k_grid,p::Par)
+    @unpack z, α, β, δ = p
+    n_k  = length(k_grid)
+    V    = zeros(n_k)
+    G_kp = fill(0,n_k)
+    G_l = fill(0.0,n_k)
+    for i = 1:n_k   # This calculates the new iteration of the  value function for all points in the grid.
+        V_aux = zeros(n_k) ;
+        l_aux = zeros(n_k) # Empty vector for auxiliary value of V(i,j)
+        for j = 1:n_k
+            # Evaluate potential value function for combinations of
+            # current capital k_i and future capital k_j
+            l_aux[j] = labor_decision(k_grid[i],k_grid[j],p)
+            V_aux[j] = utility(k_grid[i],k_grid[j],l_aux[j],p) + β*V_old[j]
+            #println(V_aux[j]," ",k_grid[i]," ",k_grid[j]," ",utility(k_grid[i],k_grid[j],z,a,b) + b*V_old[j])
+        end
+        # Choose maximum value given current capital k_i
+        V[i], G_kp[i] = findmax(V_aux)
+        G_l[i] = l_aux[G_kp[i]]
+    end
+    return V, G_kp, G_l
+end
 
 
 
+# Now, what we are gonna do is iterate the contraction T until I get the fixed point which is the solution of the contraction
+
+# Solve VFI with grid search and loops
+function VFI_grid(T::Function,k_grid,p::Par)
+    # VFI paramters
+    @unpack max_iter, dist_tol = p
+    # Initialize variables for loop
+    n_k    = length(k_grid) ; # Number of grid nodes
+    V_old  = zeros(n_k)     ; # Initial value, a vector of zeros
+    V_dist = 1              ; # Initialize distance
+    println(" ")
+    println("------------------------")
+    println("VFI - Grid Search - n_k=$n_k")
+    for iter=1:max_iter
+        # Update value function
+        V_new, G_kp, G_l = T(V_old)
+        # Update distance and iterations
+        V_dist = maximum(abs.(V_new./V_old.-1))
+        iter  += 1
+        # Update old function
+        V_old  = V_new
+        # Report progress
+        if mod(iter,100)==0
+            println("   VFI Loop: iter=$iter, dist=",100*V_dist,"%")
+        end
+        # Check convergence and return results
+        if V_dist<=dist_tol
+            println("VFI - Grid Search - n_k=$n_k")
+            println("Iterations = $iter and Distance = ",100*V_dist,"%")
+            println("------------------------")
+            println(" ")
+            return V_new, G_kp, G_l
+        end
+    end
+    # If loop ends there was no convergence -> Error!
+    error("Error in VFI - Grid Search - Solution not found")
+end
 
 
 
+# Solve VFI with grid search and loops
+function Solve_VFI_loop(n_k,p::Par)
+    println("----------------------------------------------------")
+    println("Value Function Iteration - Grid Search with Loops")
+    # Get Grid
+    k_grid = Make_K_Grid(n_k,p)
+    # Solve VFI
+    V, G_kp, G_l = VFI_grid(x->T_grid_loop(x,k_grid,p),k_grid,p)
+    # Return Solution
+    return V,G_kp, G_l, k_grid
+end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+@time V_20, G_kp_20, G_c_20, k_grid_20 = Solve_VFI_loop(20,p)

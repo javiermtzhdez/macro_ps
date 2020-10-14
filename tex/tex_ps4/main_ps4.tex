@@ -1,0 +1,83 @@
+\documentclass[a4paper]{article} 
+\input{style/head.tex}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{dsfont}
+
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+%-------------------------------
+%	TITLE VARIABLES (identify your work!)
+%-------------------------------
+
+\newcommand{\yourname}{Javier Martinez Hernandez} % replace YOURNAME with your name
+%\newcommand{\yournetid}{Student ID: 251054234} % replace YOURNETID with your NetID
+\newcommand{\youremail}{fmarti23@uwo.ca} % replace YOUREMAIL with your email
+%\newcommand{\assignmentnumber}{1} % replace X with assignment number
+\newcommand{\deliverynumber}{1} % replace X with assignment number
+
+\begin{document}
+
+%-------------------------------
+%	TITLE SECTION (do not modify unless you really need to)
+%-------------------------------
+\input{style/header.tex}
+
+%-------------------------------
+%	ASSIGNMENT CONTENT (add your responses)
+%-------------------------------
+
+\section{PART I}
+
+Consider the Neo-Classical growth model with endogenous labor supply. The representative consumer has the period utility:
+
+The utility function is:\\~\
+\begin{align*}
+u(c,l) = \frac{c^{1-\sigma}}{1-\sigma} - \chi \frac{l^{1+\eta}}{1+\eta}
+\end{align*}
+
+Labor hours are constrained to be $l \in [0,1]$. Capital depreciates at rate $\delta$ every period. The parameters of the model are as follows: $\alpha=\frac{1}{3}$, $z=1$, $ \sigma	=2$, $\eta =1$, $\delta = 0.05$ and set $\chi$ such that $l_{ss}$ = 0.4.\\~\
+
+\begin{enumerate}
+\item[1.] Solve the planner's problem numerically using VFI. You must treat all choice variables and states as continuous. You must do it using: a) Direct maximization over a pair of variables($c,l$) or ($k',l$) , b) Direct maximization over a single variable ($k'$) with other variables solved for analytically; and c) Solving the first order conditions.\\~\
+
+The plan for a) so far would be something like:\\~\
+The bellman operator as follows:
+\begin{enumerate}
+\item First create a grid for $l$
+\item Interpolate the value function
+\item Employ the continuous choice bellman operator for solving for $k' = g(k)$, $V$, and employing the resource constraint for $c=g_c(k,k',l)$ for every value on the grid of $l$.
+\item Now, again interpolate the Value function of all the points I dont observe of the $l$ grid.
+\item Define a new objective function that after optimizing returns the optimal value of $l$ even if it is not in the grid.
+\item Repeat until convergence.
+\end{enumerate}
+
+
+\item[2.] 2
+
+\item[3.] 3
+\item[4.] 4
+\item[5.] 5
+
+\item[6.] 6
+
+\item[7.] 7
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+%------------------------------------------------
+%
+%\bibliographystyle{acm}
+%\bibliography{references} % citation records are in the references.bib document
+
+\end{document}
