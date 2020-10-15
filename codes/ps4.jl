@@ -138,7 +138,7 @@ function SS_values(p::Par)
 end
 
 # Utility function
-function utility(k,x,p::Par)
+function utility(k,x::Array,p::Par)
 #function utility(k,kp,l,p::Par)
     @unpack α,δ,σ,z,η,c_min = p
     kp = x[1]
@@ -155,6 +155,26 @@ function utility(k,x,p::Par)
     u = u_c - - χ*((l^(1+η))/(1+η))
     return u
 end
+
+function Euler_Labor(k,x,p::Par)
+    @unpack α,δ,σ,z,η = p
+    kp = x[1]
+    l = x[2]
+    c = z*(k^α)*l^(1-α)+(1-δ)*k - kp
+    return -χ*l^η + (1/c^σ)*(1-α)*z*k^α*l^(-α)
+end
+
+function Euler_capital(k,x1::Array,x2::Array, p::Par)
+    @unpack α,δ,σ,z,η,β = p
+    kp = x1[1]
+    l = x1[2]
+    kpp = x2[1]
+    lp = x2[2]
+    c = z*(k^α)*l^(1-α)+(1-δ)*k - kp
+    cp = z*(kp^α)*lp^(1-α)+(1-δ)*kp - kpp
+    return -(1/c^α)+(1/cp^α)*β*(α*z*(lp/kp)^(1-α) + (1-δ))
+
+
 
 # Derivative of utility function wrt labor
 function d_utility_l(k,x,p::Par)
@@ -281,15 +301,15 @@ function T_cts_max(M::Model)
         # Lower bound 
         lb = [kp_min,l_min]
         #dObj_min = ForwardDiff.gradient(Obj_Fun,lb)
-        #dObj_min = -dutility(k_grid[i],lb,p) .- β*dVp(lb[1])
-        #if dObj_min[1]>0 && dObj_min[2]>0
-        #    V[i]    = -Obj_Fun(lb)
-        #    G_kp[i] = lb[1]
-        #    G_l[i] = lb[2]
-        #else
+        dObj_min = -dutility(k_grid[i],lb,p) .- β*dVp(lb[1])
+        if dObj_min[1]>0 && dObj_min[2]>0
+            V[i]    = -Obj_Fun(lb)
+            G_kp[i] = lb[1]
+            G_l[i] = lb[2]
+        else
         # Upper bound
         ub = [kp_max, l_max]
-        #    dObj_max = -dutility(k_grid[i],ub,p) .- β*dVp(ub[1])
+            dObj_max = -dutility(k_grid[i],ub,p) .- β*dVp(ub[1])
             #dObj_max = ForwardDiff.gradient(Obj_Fun,ub)
         #if dObj_max[1]<0 && dObj_max[2]<0
         #    V[i]    = -bj_Fun(ub)
