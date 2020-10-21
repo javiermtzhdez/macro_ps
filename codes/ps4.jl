@@ -63,21 +63,20 @@ include("Scaled_Interpolation_Functions.jl")
     η::Float64 = 1.0; # Parameter for labor
     σ::Float64 = 2.0; # Parameter for the risk aversion
     δ::Float64 = 0.05; # Depreciation rate
+    χ:: = (z*(1-α)*(((z*α*β)/(1-β+β*δ))^(1/(1-α)))^α)/(l^(σ+η)*(z*(((z*α*β)/(1-β+β*δ))^(1/(1-α)))^α-δ*(((z*α*β)/(1-β+β*δ))^(1/(1-α)))^σ)
     # VFI values
     max_iter::Int64 = 2000 ; # Maximum number of iterations
     dist_tol::Float64 = 1E-9 ; # Tolerance for the distance (tol for the fixed point)
     # Howard's Policy iterations
     H_tol::Float64 = 1E-9; # Tolerance for policy function iteration.
     N_H::Int64        = 20    ; # Maximum number of policy iterations
-    # Minimum consumption for numerical optimization
+    # Minimum consumption and labor for numerical optimization
     c_min::Float64    = 1E-16
+    l_min::Float64    = 1E-16
 end
 
-# Allocate parameters to object p for future calling? why not calling them directly? 
-# Is this like creating a vector of parameters
-p=Par()
 
-# Ok so lets raise some hell here
+p=Par()
 
 # 1. Solve the planner's problem using VFI. Treat all choice variables and states as continuous. 
 
@@ -173,7 +172,7 @@ function Euler_capital(k,x1::Array,x2::Array, p::Par)
     c = z*(k^α)*l^(1-α)+(1-δ)*k - kp
     cp = z*(kp^α)*lp^(1-α)+(1-δ)*kp - kpp
     return -(1/c^α)+(1/cp^α)*β*(α*z*(lp/kp)^(1-α) + (1-δ))
-
+end
 
 
 # Derivative of utility function wrt labor
@@ -600,3 +599,117 @@ VFI_Graphs(M_20,"mvariate_max")
 
 
 
+
+
+#-----------------------------------------------------------
+#-----------------------------------------------------------
+# Bellman operator - Continuous Choice
+function T_cts_max(M::Model)
+    @unpack p, n_k, k_grid, V, G_kp, G_c, G_l = M
+    @unpack z, α, β, c_min, δ, η, σ  = p
+    # Define the interpolation of the current value function (V) for values of Vp
+    Vp = ScaledInterpolations(k_grid,V, BSpline(Cubic(Line(OnGrid()))))
+    dVp(x) = ForwardDiff.derivative(Vp,x[1])
+    for i = 1:n_k
+        l_ss,k_ss,y_ss,c_ss,r_ss,w_ss = SS_values
+        # Objective function
+        Obj_Fun = x->(-utility(k_grid[i],x,p) - β*Vp.(x[1]))
+        # Lower and upper bound for the values
+        l_min = 1E-16
+        l_max = 1.0
+        # We can check the bounds better
+        if k_grid[i]<k_ss
+            kp_min = k_grid[1]
+            kp_max = k_ss
+        elseif k_grid[i]>k_ss
+            kp_min = k_ss
+            kp_max = min(z*k_grid[i]^α  + (1-δ)*k_grid[i] - c_min, k_grid[end])
+        #kp_min = k_grid[1]
+        #kp_max = min(z*k_grid[i]^α  + (1-δ)*k_grid[i] - c_min, k_grid[end])
+        end
+        #=
+        Now let's be smart as Sergio suggested and check the corner solutions. We know that optimally, we have an Euler equation for labor
+        and a Euler equation for capital using the envelope condition
+        =#
+        # First for labor at the min, this would mean that the agent is working l_min, and still would like to work less
+        foc_l_min_bound = Euler_Labor(k_grid[i], [k_grid[1],l_min],p)
+        foc_l_max_bound = Euler_Labor(k_grid[i], [k_max,l_max],p)
+        foc_k 
+        # I have to check the bounds on capital 
+        if  foc_l_min_bound<0 # In this case, I would like to work less, but I cant, I am already working the minimum -> Corner Solution
+            G_l[i] = l_min
+            G_kp[i] = k_min
+            V[i] = -Obj_Fun([k_min,l_min])
+        elseif foc_l_max_bound>0
+            G_l[i] = l_max
+            G_kp[i] = k_max
+            V[i] = -Obj_Fun([k_max,l_max])
+        else
+            if 
+
+
+        # Euler_Labor(k,x,p::Par)
+        
+        
+        
+        # Compute the implied consumption
+        # I am going to calculate it with two bounds. One is for working full and the other one is working zero
+        c_imp = z*(k_grid[i]^α)*(G_l[i]^1-α)+(1-δ)*k_grid[i]-G_kp[i]
+        if c_imp<c_min
+            V[i] = 
+        Obj_Fun(k,x,p) = -utility(k_grid[i],x,p) - β*Vp.(x[1])
+        # Min and max kp given current k
+        #################################################################################
+        # Not so sure about these bounds
+        #################################################################################
+        kp_min = 0.0001 # Suggested by Emmanuel
+        # kp_min = k_grid[1]/(1-δ) # The bound I thought of
+        kp_max = min(z*k_grid[i]^α  + (1-δ)*k_grid[i] - c_min, k_grid[end])
+        #kp_max = 0.0
+        # Bounds for l
+        l_min = 1E-16
+        l_max = 1.0
+        # Now check if they bind
+        # Lower bound 
+        lb = [kp_min,l_min]
+        #dObj_min = ForwardDiff.gradient(Obj_Fun,lb)
+        dObj_min = -dutility(k_grid[i],lb,p) .- β*dVp(lb[1])
+        if dObj_min[1]>0 && dObj_min[2]>0
+            V[i]    = -Obj_Fun(lb)
+            G_kp[i] = lb[1]
+            G_l[i] = lb[2]
+        else
+        # Upper bound
+        ub = [kp_max, l_max]
+            dObj_max = -dutility(k_grid[i],ub,p) .- β*dVp(ub[1])
+            #dObj_max = ForwardDiff.gradient(Obj_Fun,ub)
+        #if dObj_max[1]<0 && dObj_max[2]<0
+        #    V[i]    = -bj_Fun(ub)
+        #    G_kp[i] = ub[1]
+        #    G_l[i] = ub[2]
+        #else
+        # Now the minimization process
+        inner_optimizer = NelderMead()
+        l_ss,k_ss,y_ss,c_ss,r_ss,w_ss = SS_values(p)
+        initial_x = [(kp_min+kp_max)/2,l_ss]
+        #od = OnceDifferentiable(Obj_Fun, initial_x; autodiff=:forward) # No Funciona bien
+        #min_result= optimize(od,lb,ub,initial_x, Fminbox()) # No funciona bien
+        #min_result = optimize(x->Obj_fn(k_grid[i],x,p),[kp_min,l_min],[kp_max,l_max],initial_x,Fminbox(inner_optimizer))
+        min_result = optimize(x->Obj_fn(k_grid[i],x,p),lb,ub,initial_x,Fminbox(inner_optimizer))
+        println(" Cheking it solved the minimization")
+        # Check result
+        converged(min_result) || error("Failed to solve Bellman max in $(iterations(min_result)) iterations")
+        # Record results
+        V[i]     = -min_result.minimum
+        G_kp[i]  = min_result.minimizer[1]
+        G_l[i]  = min_result.minimizer[2]
+        #end
+        #end
+    end
+    G_c = z.*(collect(k_grid).^α).*(G_l.^(1-α)) .+(1-δ).*collect(k_grid) .-G_kp
+    # Return Results
+         println("T(V) = $V")
+    return V, G_kp, G_c, G_l
+
+end
+#-----------------------------------------------------------
