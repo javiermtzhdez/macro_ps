@@ -1,6 +1,7 @@
 ####################################################################
 ####################################################################
 ############# Advance Macroeconomics II PS 5
+############# Part A
 ####################################################################
 ####################################################################
 
@@ -78,7 +79,7 @@ gr()
 Plots.plot(1:150, z[1:150,2], label = "zp", linestyle = :dashdotdot, legend = :outerbottomright )
 xlabel!("t")
 title!("AR (1) process")
-savefig("Figures/original_AR1_z")
+Plots.savefig("Figures/original_AR1_z")
 
 # Grid sizes required
 N1 = 5
@@ -95,7 +96,7 @@ Tauchen_N2 = Tauchen86(0.9,0.1,N2)
 
 # Discretization using Rouwenhorst Method
 
-Rouwenhorst_N1 = Rouwenhorst95(0.9,0.1,N1)
+Rouwenhorst_N1 = Rouwenhorst95(0.9,0.1,N1)  # It has a grid size, a grid, transition probability matrix, pdf and cdf
 Rouwenhorst_N2 = Rouwenhorst95(0.9,0.1,N2)
 
 ##################
