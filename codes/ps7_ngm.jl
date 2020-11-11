@@ -42,3 +42,12 @@ include("Scaled_Interpolation_Functions.jl")
 # For replicability purposes I will set the seed at 123
 Random.seed!(123)
 
+
+# Como se ve el codigo?
+
+#= EGM for Recursive Competitive Equilibrium
+
+
+    For the outer loop create a grid for productivity using Rouwenhorst95
+    For the aggregate capital and the individual capital create 2 grids
+
