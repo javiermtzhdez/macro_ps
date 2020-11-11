@@ -1,0 +1,86 @@
+\documentclass[a4paper]{article} 
+\input{style/head.tex}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{dsfont}
+
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+
+%-------------------------------
+%	TITLE VARIABLES (identify your work!)
+%-------------------------------
+
+\newcommand{\yourname}{Javier Martinez Hernandez} % replace YOURNAME with your name
+%\newcommand{\yournetid}{Student ID: 251054234} % replace YOURNETID with your NetID
+\newcommand{\youremail}{fmarti23@uwo.ca} % replace YOUREMAIL with your email
+%\newcommand{\assignmentnumber}{1} % replace X with assignment number
+\newcommand{\deliverynumber}{7} % replace X with assignment number
+
+\begin{document}
+
+%-------------------------------
+%	TITLE SECTION (do not modify unless you really need to)
+%-------------------------------
+\input{style/header.tex}
+
+%-------------------------------
+%	ASSIGNMENT CONTENT (add your responses)
+%-------------------------------
+
+\section{PART II}
+
+Arellano (2008) modification.\\~\
+
+The utility function is:\\~\
+\begin{align*}
+u(c) = \frac{c^{1-\sigma}}{1-\sigma} 
+\end{align*}
+
+The main difference with respect to the original Arellano (2008) paper is that under financial autarky, the country can secretly save with world interest rate R.\\~\
+
+For solving this modification, I will make the following assumption:\\~\
+- If a country defaults and goes into financial autarky, the country can save as stated; however, if with probability $\lambda$, the country regains access to the international financial markets, the secret savings are lost.\\~\
+
+The model consists of risk averse households, a benevolent government, risk-neutral competitive creditors. Overall, the same conditions as in Arellano (2008) applies with the difference in the resource constraint under financial autarky. Contracts are not enforceable and the government can choose to default on its debt at any time. Household preferences are given by
+\begin{equation}
+\mathbf{E_0} \sum_{t=0}^{\infty} \beta^{t} u(c_{t})
+\end{equation}
+The resource constraint for the small open economy is the following:
+\begin{equation}
+c = y + B - q(B',y)B'
+\end{equation}
+While the resource constraint under financial autarky for the economy is:
+\begin{equation}
+c = y^{def} + B_{s} - q(B_{s}^{'},y^{def})B_{s}
+\end{equation}
+
+\begin{itemize}
+\item[a)] Define a recursive equilibrium for this problem.\\~\
+
+A \textbf{Recursive Equilibrium} for this economy is defined as a set of policy functions for (i) consumption c(s); (ii) government's asset holdings B's(s) \textit{for the case with access to financial markets and the secret bond holdings}, repayment sets A(B), and Default sets D(B) \textit{when access to financial markets is available}; and (iii) the price function for bonds q(B',y) \textit{when there is access to financial markets} such that:\\~\
+
+\begin{enumerate}
+\item Taking as given the government policies, households' consumption c(s) satisfies the resource constraint.
+\item Taking as given the bond price function q(B',y), the government's policy functions B'(s) \textit{with access to financial markets}, repayment sets A(B), and default sets D(B) satisfy the government optimization problem.
+\item Bonds prices \textbf{when financial markets are available} q(B',y) reflect the government's default probabilities and are consistent with creditors' expected zero profits. 
+\end{enumerate}
+
+\underline{Under financial autarky, it is my intuition that bonds' price will be $q=\frac{1}{R}$ because there is no default probability here. It will be a risk-free non-state contingent asset that the government cannot default on, and given the world interest rate, it will be traded as such within the country.}\\~\
+
+\item[b)] Prove that default decision is non-increasing in current bond holding.\\~\
+\textbf{Ask if this should  not be non-decreasing?} This is how I am thinking it: For any bond holdings and endowment (that is, the aggregate state variable)  the government decides whether to default or not (this is done every period, hence the recursive nature of it). Now, for any bond level (B), the default and the repayment sets depend on the state that occurs.\\~\
+
+\item[c)] Prove that the country will not choose to default if it holds positive assets (B>0).\\~\
+
+\item[d)] Solve the recursing equilibrium under the parameter values in Arellano (2008). \\~\
+\end{itemize}
+
+
+%------------------------------------------------
+%
+%\bibliographystyle{acm}
+%\bibliography{references} % citation records are in the references.bib document
+
+\end{document}
